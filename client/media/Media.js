@@ -9,6 +9,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Modal from '@material-ui/core/Modal'
 import Edit from '@material-ui/icons/Edit'
 import Avatar from '@material-ui/core/Avatar'
 import auth from './../auth/auth-helper'
@@ -36,12 +38,23 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+
 export default function Media(props) {
+  const [open, setOpen] = React.useState(false);
+  
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
   const classes = useStyles()
   const mediaUrl = props.media._id
         ? `/api/media/video/${props.media._id}`
         : null
   const nextUrl = props.nextUrl
+  
   return (
     <Card className={classes.card}>
       <CardHeader className={classes.header}
@@ -72,6 +85,38 @@ export default function Media(props) {
                     <DeleteMedia mediaId={props.media._id} mediaTitle={props.media.title}/>
                   </ListItemSecondaryAction>)
           }
+        </ListItem>
+        <ListItem>
+          <Button variant="contained" color="primary" onClick={handleOpen}>Join</Button>
+          
+<Modal
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="simple-modal-title"
+  aria-describedby="simple-modal-description"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+  }}
+>
+  <div style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    width:"500px",
+    backgroundColor: "white"
+  }}>
+  <h2 id="simple-modal-title">Membership</h2>
+      <p id="simple-modal-description">
+        Are You Sure You want to Proceed?
+      </p>
+      <h2>Rs. 130</h2>
+      <Button variant="contained" color="primary" style={{marginBottom: "20px"}}>Proceed</Button>
+  </div>
+</Modal>
         </ListItem>
         <Divider/>
         <ListItem>
